@@ -11,6 +11,11 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageTk
 from itertools import count
 
+def selecionaFonte(file_path):
+    file_path.set(filedialog.askopenfilename(title="pega um .ttf ae pra tu ver como q é o esquema",filetypes=[("Fontes TrueType", "*.ttf"), ("Todos os arquivos", "*.*")]))
+    legenda_fonte.config(text=f"letra: {Path(file_path.get()).name}")
+    return
+
 def getImages(path):
     images = []
     for file in ['*.png', '*.jpg', '*.jpeg', '*.JPEG', '*.JPG', '*.PNG']:
@@ -60,7 +65,11 @@ def stampImages(images, destino):
         font_stroke = math.ceil(font_size/21.66)
         margin = math.ceil(big_side/13.55)
 
-        font= ImageFont.truetype('fonts/Comic Sans MS.ttf', font_size)
+        try:
+            font = ImageFont.truetype(font_path.get(), font_size)
+        except:
+            font = ImageFont.truetype('Comic Sans MS', font_size)
+ 
         draw = ImageDraw.Draw(img)
 
         bbox = draw.textbbox((0, 0), text=text, font=font)
@@ -134,6 +143,7 @@ janela.title("MagoStamper2000")
 fonte_padrao = "Comic Sans MS"
 origem_var = tk.StringVar()
 destino_var = tk.StringVar()
+font_path = tk.StringVar()
 
 titulo = tk.Label(janela, text="MagoStamper2000", font=(fonte_padrao, 16, "bold"), fg="#5C0086")
 titulo.pack(pady=10)
@@ -147,11 +157,18 @@ legenda_origem.grid(row=1, column=0, padx=10, pady=5)
 legenda_destino = tk.Label(div_paths, font=(fonte_padrao, 10), text="nao esquece de selecionar o destino tbm ne durrrr, ou nao escolhe memo nao e deixa ser o destino padrão tlgd vc q sabe", wraplength=200, justify=tk.CENTER)
 legenda_destino.grid(row=1, column=1, padx=10, pady=5)
 
+legenda_fonte = tk.Label(div_paths, font=(fonte_padrao, 10), text="escolhe uma fonte senao vai a padrão também", wraplength=200, justify=tk.CENTER)
+legenda_fonte.grid(row=1, column=2, padx=10, pady=5)
+
 botao_origem = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a origem aq", command=lambda: selecionaPasta(origem_var, legenda_origem, "origem"), width=25, height=2)
 botao_origem.grid(row=0, column=0, padx=10, pady=5)
 
 botao_destino = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe o destino aq", command=lambda: selecionaPasta(destino_var, legenda_destino, "destino"), width=25, height=2)
 botao_destino.grid(row=0, column=1, padx=10, pady=5)
+
+botao_origem = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a fonte aq", command=lambda: selecionaFonte(font_path), width=25, height=2)
+botao_origem.grid(row=0, column=2, padx=10, pady=5)
+
 
 legenda_status = tk.Label(font=(fonte_padrao, 10), text="fazendo bulhufas,,", wraplength=400, justify=tk.CENTER)
 legenda_status.pack(pady=10)

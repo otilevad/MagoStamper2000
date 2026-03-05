@@ -105,6 +105,7 @@ def stampImages(images, destino):
     legenda_status.update()
 
     abrePasta(destino)
+    return
 
 def abrePasta(path):
     if platform.system() == "Windows":
@@ -113,12 +114,14 @@ def abrePasta(path):
         subprocess.Popen(["open", path])
     else:
         subprocess.Popen(["xdg-open", path])
+    return
 
 def selecionaPasta(path_var, legenda_var, prefix):
     pasta = filedialog.askdirectory(title=f"Selecionar {prefix}")
     if pasta:
         path_var.set(pasta)
         legenda_var.config(text=f"{prefix}: {pasta}")
+    return
 
 def autoDestino(origem):
     nome_destino=f"{Path(origem).name} - MagoStamper2000"
@@ -137,12 +140,13 @@ def executar():
         if not images: raise Exception("po aí tu me lança uma pasta sem imagens? qq tu quer q eu faça bruuuuhhhhhhh")
         destino = destino_var.get()
         if not destino: 
-            destino = autoDestino(origem)
+            destino = autoDestino(origem_var.get())
     except Exception as e:
         messagebox.showerror("deu erro kasjdkjhaskhdikhasdkjh", f"{e}")
         return
     
     stampImages(images, destino)
+    return
 
 janela = tk.Tk()
 janela.title("MagoStamper2000")

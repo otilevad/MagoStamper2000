@@ -16,6 +16,11 @@ def selecionaFonte(file_path):
     legenda_fonte.config(text=f"letra: {Path(file_path.get()).name}")
     return
 
+def resetaFonte(file_path):
+    file_path.set('Comic Sans MS')
+    legenda_fonte.config(text=f"letra: padrão da firma!!")
+    return
+
 def getImages(path):
     images = []
     for file in ['*.png', '*.jpg', '*.jpeg', '*.JPEG', '*.JPG', '*.PNG']:
@@ -158,7 +163,7 @@ legenda_destino = tk.Label(div_paths, font=(fonte_padrao, 10), text="nao esquece
 legenda_destino.grid(row=1, column=1, padx=10, pady=5)
 
 legenda_fonte = tk.Label(div_paths, font=(fonte_padrao, 10), text="escolhe uma fonte senao vai a padrão também", wraplength=200, justify=tk.CENTER)
-legenda_fonte.grid(row=1, column=2, padx=10, pady=5)
+legenda_fonte.grid(row=2, column=2, padx=10, pady=5)
 
 botao_origem = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a origem aq", command=lambda: selecionaPasta(origem_var, legenda_origem, "origem"), width=25, height=2)
 botao_origem.grid(row=0, column=0, padx=10, pady=5)
@@ -166,8 +171,11 @@ botao_origem.grid(row=0, column=0, padx=10, pady=5)
 botao_destino = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe o destino aq", command=lambda: selecionaPasta(destino_var, legenda_destino, "destino"), width=25, height=2)
 botao_destino.grid(row=0, column=1, padx=10, pady=5)
 
-botao_origem = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a fonte aq", command=lambda: selecionaFonte(font_path), width=25, height=2)
-botao_origem.grid(row=0, column=2, padx=10, pady=5)
+botao_fonte = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a fonte", command=lambda: selecionaFonte(font_path), width=25, height=2)
+botao_fonte.grid(row=0, column=2, padx=10, pady=5)
+
+botao_fonte = tk.Button(div_paths, font=(fonte_padrao, 10), text="reseta a letra", command=lambda: resetaFonte(font_path), width=25, height=2)
+botao_fonte.grid(row=1, column=2, padx=10, pady=5)
 
 
 legenda_status = tk.Label(font=(fonte_padrao, 10), text="fazendo bulhufas,,", wraplength=400, justify=tk.CENTER)

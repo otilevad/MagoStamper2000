@@ -54,7 +54,7 @@ def stampImages(images, destino):
 
         text = (f"{date_array[2]}/{date_array[1]}/{date_array[0]} {time_array[0]}:{time_array[1]}")
 
-        porcentagem=int((i+1)/img_qtd*100)
+        porcentagem=int((i)/img_qtd*100)
         legenda_status.config(text=f"{porcentagem}%\n\ncarimbando {text} em: {img.filename}")
         legenda_status.update()
 

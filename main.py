@@ -27,8 +27,7 @@ def stampImages(images, destino):
     img_qtd = len(images)
     for i, image in enumerate(images):
         img = Image.open(image)
-        image_name = img.filename.split('\\')[-1].split('.')
-
+        
         exif_data = img.getexif()
         date_time = exif_data.get(306, "Unknown")
 
@@ -49,7 +48,7 @@ def stampImages(images, destino):
         legenda_status.config(text=f"{porcentagem}%\n\ncarimbando {text} em: {img.filename}")
         legenda_status.update()
 
-        nome = f'{image_name[0]}-MagoStamper2000.{image_name[1]}'
+        nome = f'{image.stem}-MagoStamper3000{image.suffix}'
 
         img = ImageOps.exif_transpose(img)
 
@@ -72,8 +71,17 @@ def stampImages(images, destino):
         y = height - textheight - margin
 
         draw.text((x, y), text, font = font, fill=(253, 162, 0), stroke_width=font_stroke, stroke_fill=(0, 0, 0))
+        
+        try:
+            path_rel = image.relative_to(Path(origem_var.get()))
+            subpasta = path_rel.parent
+        except:
+            subpasta = Path("")
 
-        path_inteiro = f'{destino}/{nome}'
+        path_subpasta = Path(destino) / subpasta
+        path_subpasta.mkdir(parents=True, exist_ok=True) 
+        
+        path_inteiro = path_subpasta / nome
 
         img.save(path_inteiro)
 
@@ -100,7 +108,7 @@ def autoDestino(origem):
     nome_destino=f"{Path(origem).name} - MagoStamper2000"
     destino = Path(origem).parent / nome_destino
     destino.mkdir(exist_ok=True)
-    
+
     destino_var.set(str(destino))
     legenda_destino.config(text=f"destino padrão po ta sem criatividade ne: {destino}")
     return str(destino)

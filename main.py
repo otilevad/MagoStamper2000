@@ -96,14 +96,24 @@ def selecionaPasta(path_var, legenda_var, prefix):
         path_var.set(pasta)
         legenda_var.config(text=f"{prefix}: {pasta}")
 
+def autoDestino(origem):
+    nome_destino=f"{Path(origem).name} - MagoStamper2000"
+    destino = Path(origem).parent / nome_destino
+    destino.mkdir(exist_ok=True)
+    
+    destino_var.set(str(destino))
+    legenda_destino.config(text=f"destino padrão po ta sem criatividade ne: {destino}")
+    return str(destino)
+
 def executar():
     try:
         origem = origem_var.get()
         if not origem: raise Exception("faltou a pasta de origem aklsjdyhfkjashdf poxa não é possível que vc esqueceu disso to até decepcionado papo reto")
-        destino = destino_var.get()
-        if not destino: raise Exception("ta faltando o destino, arruma esse troço aí senao esse trem aq nao vai funcionar nao slk")
         images = getImages(Path(origem))
         if not images: raise Exception("po aí tu me lança uma pasta sem imagens? qq tu quer q eu faça bruuuuhhhhhhh")
+        destino = destino_var.get()
+        if not destino: 
+            destino = autoDestino(origem)
     except Exception as e:
         messagebox.showerror("deu erro kasjdkjhaskhdikhasdkjh", f"{e}")
         return
@@ -126,7 +136,7 @@ div_paths.pack(pady=10)
 legenda_origem = tk.Label(div_paths, font=(fonte_padrao, 10), text="seleciona uma origem ae", wraplength=200, justify=tk.CENTER)
 legenda_origem.grid(row=1, column=0, padx=10, pady=5)
 
-legenda_destino = tk.Label(div_paths, font=(fonte_padrao, 10), text="nao esquece de selecionar o destino tbm ne durrrr", wraplength=200, justify=tk.CENTER)
+legenda_destino = tk.Label(div_paths, font=(fonte_padrao, 10), text="nao esquece de selecionar o destino tbm ne durrrr, ou nao escolhe memo nao e deixa ser o destino padrão tlgd vc q sabe", wraplength=200, justify=tk.CENTER)
 legenda_destino.grid(row=1, column=1, padx=10, pady=5)
 
 botao_origem = tk.Button(div_paths, font=(fonte_padrao, 10), text="escolhe a origem aq", command=lambda: selecionaPasta(origem_var, legenda_origem, "origem"), width=25, height=2)

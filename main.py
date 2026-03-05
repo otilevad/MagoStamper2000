@@ -12,8 +12,10 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageTk
 from itertools import count
 
 def selecionaFonte(file_path):
-    file_path.set(filedialog.askopenfilename(title="pega um .ttf ae pra tu ver como q é o esquema",filetypes=[("Fontes TrueType", "*.ttf"), ("Todos os arquivos", "*.*")]))
-    legenda_fonte.config(text=f"letra: {Path(file_path.get()).name}")
+    file_path.set(filedialog.askopenfilename(title="pega um .ttf ae pra tu ver como q é o esquema",filetypes=[("Fontes TrueType", "*.ttf")]))
+    nome_letra=Path(file_path.get()).name
+    if nome_letra:
+        legenda_fonte.config(text=f"letra: {nome_letra}")
     return
 
 def resetaFonte(file_path):
@@ -58,7 +60,7 @@ def stampImages(images, destino):
         legenda_status.config(text=f"{porcentagem}%\n\ncarimbando {text} em: {img.filename}")
         legenda_status.update()
 
-        nome = f'{image.stem}-MagoStamper3000{image.suffix}'
+        nome = f'{image.stem}-MagoStamper2000{image.suffix}'
 
         img = ImageOps.exif_transpose(img)
 

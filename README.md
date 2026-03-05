@@ -1,0 +1,1 @@
+minha powershot a2500 está em estado vegetativo, entao precisei criar esse negócio aq pra colocar a data nas fotos, pode usar também se quiser.. nao po to falando sério, pode usar!! não, que isso po, sem problemas.. pode usar eu deixo

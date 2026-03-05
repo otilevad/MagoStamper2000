@@ -1,5 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
+import os
+import platform
+import subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
@@ -58,7 +61,17 @@ def stampImages(images, destino):
 
         img.save(path_inteiro)
 
+def abrePasta(path):
+    if platform.system() == "Windows":
+        os.startfile(path) 
+    elif platform.system() == "Darwin":
+        subprocess.Popen(["open", path])
+    else:
+        subprocess.Popen(["xdg-open", path])
+
 origem = Path(filedialog.askdirectory())
 destino = filedialog.askdirectory()
 
 stampImages(getImages(origem), destino)
+
+abrePasta(destino)

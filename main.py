@@ -4,17 +4,28 @@ from tkinter import filedialog, messagebox
 import os
 import platform
 import subprocess
+import datetime
+import math
+import pathlib
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageTk
+from itertools import count
 
 def getImages(path):
     images = []
-    for ext in ['*.png', '*.jpg', '*.jpeg']:
-        images.extend(path.glob(ext))
+    for file in ['*.png', '*.jpg', '*.jpeg', '*.JPEG', '*.JPG', '*.PNG']:
+        images.extend(path.glob(f'**/{file}'))
     return images
 
+def getDataMod(filepath):
+    path = pathlib.Path(filepath)
+    timestamp = path.stat().st_mtime
+    time = datetime.datetime.fromtimestamp(timestamp)
+    return str(time)
+
 def stampImages(images, destino):
-    for image in images:
+    img_qtd = len(images)
+    for i, image in enumerate(images):
         img = Image.open(image)
         image_name = img.filename.split('\\')[-1].split('.')
 
@@ -27,11 +38,15 @@ def stampImages(images, destino):
             date_time_array = date_time.split()
             date_array = date_time_array[0].split(':')
             time_array = date_time_array[1].split(':')
-            text = (f"{date_array[2]}/{date_array[1]}/{date_array[0]} {time_array[0]}:{time_array[1]}")
         except:
-            text = "magodavos esteve aqui..."
+            date_time_array = getDataMod(img.filename).split()
+            date_array = date_time_array[0].split('-')
+            time_array = date_time_array[1].split(':')
 
-        legenda_status.config(text=f"carimbando {text} em: {img.filename}")
+        text = (f"{date_array[2]}/{date_array[1]}/{date_array[0]} {time_array[0]}:{time_array[1]}")
+
+        porcentagem=int((i+1)/img_qtd*100)
+        legenda_status.config(text=f"{porcentagem}%\n\ncarimbando {text} em: {img.filename}")
         legenda_status.update()
 
         nome = f'{image_name[0]}-MagoStamper2000.{image_name[1]}'
@@ -42,9 +57,9 @@ def stampImages(images, destino):
 
         big_side = max(width, height)
 
-        font_size = (big_side/35.45)
-        font_stroke = (font_size/21.66)
-        margin = (big_side/13.55)
+        font_size = math.ceil(big_side/35.45)
+        font_stroke = math.ceil(font_size/21.66)
+        margin = math.ceil(big_side/13.55)
 
         font= ImageFont.truetype('fonts/Comic Sans MS.ttf', font_size)
         draw = ImageDraw.Draw(img)

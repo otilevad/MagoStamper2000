@@ -139,7 +139,7 @@ def executar():
         images = getImages(Path(origem))
         if not images: raise Exception("po aí tu me lança uma pasta sem imagens? qq tu quer q eu faça bruuuuhhhhhhh")
         destino = destino_var.get()
-        if not destino: 
+        if (not destino) or (destino == origem): 
             destino = autoDestino(origem_var.get())
     except Exception as e:
         messagebox.showerror("deu erro kasjdkjhaskhdikhasdkjh", f"{e}")

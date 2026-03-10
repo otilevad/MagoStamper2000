@@ -76,17 +76,22 @@ def stampImages(images, destino):
             font = ImageFont.truetype(font_path.get(), font_size)
         except:
             font = ImageFont.truetype('Comic Sans MS', font_size)
+
+        font_largura = font.getlength("A")
  
         draw = ImageDraw.Draw(img)
 
+        ch_list=list(text)
+
         bbox = draw.textbbox((0, 0), text=text, font=font)
-        textwidth = bbox[2] - bbox[0]
+        textwidth = len(ch_list) * font_largura
         textheight = bbox[3] - bbox[1]
 
-        x = width - textwidth - margin
-        y = height - textheight - margin
+        for i, ch in enumerate(ch_list):
+            x = width - textwidth - margin + (i*font_largura*1)
+            y = height - textheight - margin
 
-        draw.text((x, y), text, font = font, fill=(253, 162, 0), stroke_width=font_stroke, stroke_fill=(0, 0, 0))
+            draw.text((x, y), ch, font = font, fill=(253, 162, 0), stroke_width=font_stroke, stroke_fill=(0, 0, 0))
         
         try:
             path_rel = image.relative_to(Path(origem_var.get()))

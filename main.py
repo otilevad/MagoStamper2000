@@ -77,7 +77,7 @@ def stampImages(images, destino):
         except:
             font = ImageFont.truetype('Comic Sans MS', font_size)
 
-        font_largura = font.getlength("A")
+        font_largura = font.getlength("A")*1.1
  
         draw = ImageDraw.Draw(img)
 
@@ -88,7 +88,7 @@ def stampImages(images, destino):
         textheight = bbox[3] - bbox[1]
 
         for i, ch in enumerate(ch_list):
-            x = width - textwidth - margin + (i*font_largura*1)
+            x = width - textwidth - margin + (i*font_largura) + (abs(font_largura-font.getlength(ch)))/2
             y = height - textheight - margin
 
             draw.text((x, y), ch, font = font, fill=(253, 162, 0), stroke_width=font_stroke, stroke_fill=(0, 0, 0))
